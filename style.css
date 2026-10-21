@@ -3,23 +3,28 @@
 html, body {
   width: 100%;
   height: 100%;
-  overflow: hidden;            
-  background: #b9854f;       
+  overflow: hidden;            /* fara scroll */
+  background: #b9854f;         /* se vede doar cat se incarca poza */
 }
 
+/* ---------- Punctul de interes ----------
+   Cand ecranul nu are aceeasi forma ca poza, o parte din poza se taie.
+   Aici spui ce zona sa ramana vizibila: procente din latimea / inaltimea pozei.
+   Acum e centrul obiectelor clickabile (folderele si polaroidurile). */
 :root {
-  --focus-x: 0.425;   
-  --focus-y: 0.25;    
+  --focus-x: 0.425;   /* 0 = stanga pozei, 1 = dreapta */
+  --focus-y: 0.25;    /* 0 = sus, 1 = jos */
 
   --vh: 100vh;
-  --w: max(100vw, calc(var(--vh) * 2576 / 1717));  
+  --w: max(100vw, calc(var(--vh) * 2576 / 1717));   /* latimea pozei: cea mai mica marime care acopera ecranul */
   --h: calc(var(--w) * 1717 / 2576);
 }
 @supports (height: 100dvh) {
-  :root { --vh: 100dvh; }      
+  :root { --vh: 100dvh; }      /* pe telefon ignora bara de adrese care apare/dispare */
 }
 
-
+/* Scena acopera tot ecranul (ca "background-size: cover").
+   Zonele clickabile sunt in procente din scena, deci raman exact peste obiecte. */
 .scena {
   position: absolute;
   width: var(--w);
@@ -51,6 +56,7 @@ html, body {
   outline: none;
 }
 
+/* Eticheta mica care apare deasupra obiectului la hover */
 .zona::after {
   content: attr(data-eticheta);
   position: absolute;
@@ -70,10 +76,12 @@ html, body {
 .zona:hover::after,
 .zona:focus-visible::after { opacity: 1; }
 
+/* Pe ecrane tactile nu exista hover: zonele raman neevidentiate, iar eticheta nu se afiseaza */
 @media (hover: none) {
   .zona::after { display: none; }
 }
 
+/* ---------- Mod unealta: deschide index.html?debug ---------- */
 .debug .zona { background: rgba(255, 0, 80, .25); outline: 2px dashed #ff0050; }
 .debug .scena { cursor: crosshair; }
 .chenar-nou { position: absolute; border: 2px solid #00c2ff; background: rgba(0, 194, 255, .2); pointer-events: none; }
