@@ -1,19 +1,31 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
+  width: 100%;
   height: 100%;
-  overflow: hidden;            /* fara scroll */
-  background: #b9854f;         /* culoarea plutei, pentru marginile libere */
+  overflow: hidden;            
+  background: #b9854f;       
 }
 
-body { display: grid; place-items: center; }
+:root {
+  --focus-x: 0.425;   
+  --focus-y: 0.25;    
 
-/* Scena pastreaza proportiile pozei (2576 x 1717) si incape mereu in ecran.
-   Zonele clickabile sunt in procente, deci raman exact peste obiecte la orice dimensiune. */
+  --vh: 100vh;
+  --w: max(100vw, calc(var(--vh) * 2576 / 1717));  
+  --h: calc(var(--w) * 1717 / 2576);
+}
+@supports (height: 100dvh) {
+  :root { --vh: 100dvh; }      
+}
+
+
 .scena {
-  position: relative;
-  width: min(100vw, calc(100vh * 2576 / 1717));
-  aspect-ratio: 2576 / 1717;
+  position: absolute;
+  width: var(--w);
+  height: var(--h);
+  left: clamp(100vw - var(--w), 50vw - var(--w) * var(--focus-x), 0px);
+  top:  clamp(var(--vh) - var(--h), 50 * var(--vh) / 100 - var(--h) * var(--focus-y), 0px);
 }
 
 .scena img {
@@ -28,6 +40,7 @@ body { display: grid; place-items: center; }
   position: absolute;
   border-radius: 4px;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition: box-shadow .15s ease, background .15s ease;
 }
 
@@ -38,7 +51,6 @@ body { display: grid; place-items: center; }
   outline: none;
 }
 
-/* Eticheta mica care apare deasupra obiectului la hover */
 .zona::after {
   content: attr(data-eticheta);
   position: absolute;
@@ -58,7 +70,10 @@ body { display: grid; place-items: center; }
 .zona:hover::after,
 .zona:focus-visible::after { opacity: 1; }
 
-/* ---------- Mod unealta: deschide index.html?debug ---------- */
+@media (hover: none) {
+  .zona::after { display: none; }
+}
+
 .debug .zona { background: rgba(255, 0, 80, .25); outline: 2px dashed #ff0050; }
 .debug .scena { cursor: crosshair; }
 .chenar-nou { position: absolute; border: 2px solid #00c2ff; background: rgba(0, 194, 255, .2); pointer-events: none; }
