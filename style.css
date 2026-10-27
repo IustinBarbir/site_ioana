@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #c68f4a; /* culoarea plutei, rezervă până se încarcă poza */
+}
+
+/*
+  Scena are exact proporțiile pozei (2576 x 1104) și se comportă ca "background-size: cover":
+  umple tot ecranul, iar ce depășește se taie simetric, centrat.
+  Obiectele clickabile sunt poziționate în procente față de scenă, deci rămân
+  exact peste obiectele din poză la orice dimensiune de ecran.
+*/
+.scena {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: max(100vw, calc(100dvh * 2576 / 1104));
+  aspect-ratio: 2576 / 1104;
+  transform: translate(-50%, -50%);
+  background: url("img/fundal.jpg") center / 100% 100% no-repeat;
+}
+
+/* ---------- obiecte clickabile ---------- */
+.item {
+  position: absolute;
+  display: block;
+  pointer-events: none;   /* hover-ul și click-ul sunt detectate în main.js, după forma PNG-ului */
+  outline: none;
+}
+
+.item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;             /* invizibil în repaus, ca să nu acopere nimic din poza de fundal */
+  transform: scale(1);
+  transform-origin: center center;
+  transition: opacity 0.18s ease-out, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+/* hover (sau focus de la tastatură): obiectul se mărește complet */
+.item.is-active,
+.item:focus-visible {
+  z-index: 5;
+}
+
+/* macheta: iese în prim-plan, peste toate celelalte; la hover ajunge exact peste poza veche din fundal și continuă spre stânga cu partea nouă */
+#macheta { --zoom-origin: 71.7% 50%; }
+#macheta img { transform-origin: var(--zoom-origin); }
+#macheta.is-active,
+#macheta:focus-visible { z-index: 20; }
+
+.item.is-active img, .item:focus-visible img {
+  opacity: 1 !important;
+  transform: scale(var(--zoom, 1.1)) !important;
+  filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 4px rgba(255,255,255,0.95));
+}
+
+.item.is-active img,
+.item:focus-visible img {
+  opacity: 1 !important;
+  transform: scale(var(--zoom, 1.1)) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item img { transition: opacity 0.12s linear; }
+}
