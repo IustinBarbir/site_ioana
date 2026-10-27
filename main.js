@@ -47,3 +47,26 @@ scena.addEventListener("click", (e) => {
   const item = pick(e.clientX, e.clientY);
   if (item) item.click(); // deschide pagina în tab nou (target="_blank")
 });
+
+// ---------- doar telefon/tabletă: pornește centrat + săgețile de swipe ----------
+if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+  const scroller = document.body;
+  const hintL = document.getElementById("hint-left");
+  const hintR = document.getElementById("hint-right");
+
+  function updateHints() {
+    const max = scroller.scrollWidth - scroller.clientWidth;
+    hintL.classList.toggle("is-hidden", scroller.scrollLeft <= 4);
+    hintR.classList.toggle("is-hidden", scroller.scrollLeft >= max - 4);
+  }
+
+  function centerScene() {
+    scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) / 2;
+    updateHints();
+  }
+
+  scroller.addEventListener("scroll", updateHints, { passive: true });
+  window.addEventListener("resize", updateHints);
+  window.addEventListener("load", centerScene);
+  centerScene();
+}
