@@ -75,3 +75,78 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .item img { transition: opacity 0.12s linear; }
 }
+
+/* ---------- săgeți de swipe: ascunse pe PC ---------- */
+.swipe-hint { display: none; }
+
+/* ============================================================
+   DOAR TELEFON / TABLETĂ (ecran touch, fără mouse)
+   - pagina se derulează doar stânga/dreapta, nu și sus/jos
+   - două săgeți sugerează swipe-ul
+   Pe PC nu se aplică nimic din blocul acesta.
+   ============================================================ */
+@media (hover: none) and (pointer: coarse) {
+  html { overflow: hidden; }
+
+  body {
+    height: 100dvh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior: none;
+    touch-action: pan-x;               /* doar gest orizontal */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  body::-webkit-scrollbar { display: none; }
+
+  /* scena nu mai e centrată/tăiată, ci e întreagă la înălțimea ecranului și se derulează */
+  .scena {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    height: 100dvh;
+    width: calc(100dvh * 2576 / 1104);
+    aspect-ratio: auto;
+    min-width: 100vw;
+    flex: none;
+  }
+
+  .swipe-hint {
+    position: fixed;
+    top: 50%;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.38);
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.55);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  .swipe-hint--left  { left: 10px;  animation: nudge-left 1.4s ease-in-out infinite; }
+  .swipe-hint--right { right: 10px; animation: nudge-right 1.4s ease-in-out infinite; }
+  .swipe-hint.is-hidden { opacity: 0; }
+
+  .swipe-hint svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @keyframes nudge-left  { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
+  @keyframes nudge-right { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+}
+
+@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  .swipe-hint { animation: none !important; }
+}
