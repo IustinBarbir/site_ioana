@@ -10,37 +10,42 @@
   <main class="scena" id="scena" role="img" aria-label="Birou cu panou de plută, monitor, scaun roșu, lampă și plante">
     <a class="item" id="map" href="map.html" target="_blank" rel="noopener" aria-label="Hartă"
        style="left:76.7469%; top:2.1739%; width:17.0419%; height:54.4384%; --zoom:1.06;">
-      <img src="img/map.png" alt="" draggable="false">
+      <img class="rest" src="img/map.png" alt="" draggable="false">
     </a>
     <a class="item" id="macheta" href="macheta.html" target="_blank" rel="noopener" aria-label="Machetă"
-       data-big="0.717 0.5" style="left:47.1988%; top:41.6252%; width:23.5872%; height:33.7532%; --zoom:1.3;">
-      <img src="img/macheta.png" alt="" draggable="false">
+       data-big-box="-0.8080 -0.17647 1.82422 1.34938"
+       style="left:55.7065%; top:42.3007%; width:16.8090%; height:32.5181%; --pulse:1.03;">
+      <!-- repaus + palpăire (și singura variantă pe telefon) -->
+      <img class="rest" src="img/machetajumatate.png" alt="" draggable="false">
+      <!-- hover (doar PC): acoperă exact poza veche și continuă spre stânga -->
+      <img class="big" src="img/macheta.png" alt="" draggable="false">
     </a>
     <a class="item" id="polaroids" href="polaroids.html" target="_blank" rel="noopener" aria-label="Despre mine"
        style="left:42.0031%; top:0.3623%; width:11.4519%; height:27.3551%; --zoom:1.1;">
-      <img src="img/polaroids.png" alt="" draggable="false">
+      <img class="rest" src="img/polaroids.png" alt="" draggable="false">
     </a>
     <a class="item" id="threadybeans" href="threadybeans.html" target="_blank" rel="noopener" aria-label="Threadybeans"
        style="left:60.6366%; top:5.5254%; width:7.2981%; height:18.7545%; --zoom:1.12;">
-      <img src="img/threadybeans.png" alt="" draggable="false">
+      <img class="rest" src="img/threadybeans.png" alt="" draggable="false">
     </a>
     <a class="item" id="folder_albastru" href="folder_albastru.html" target="_blank" rel="noopener" aria-label="Portfolio"
        style="left:40.5668%; top:26.7210%; width:1.8634%; height:4.0761%; --zoom:1.3;">
-      <img src="img/folder_albastru.png" alt="" draggable="false">
+      <img class="rest" src="img/folder_albastru.png" alt="" draggable="false">
     </a>
     <a class="item" id="folder_roz" href="folder_roz.html" target="_blank" rel="noopener" aria-label="CV"
        style="left:40.5668%; top:49.8188%; width:2.0186%; height:4.3478%; --zoom:1.3;">
-      <img src="img/folder_roz.png" alt="" draggable="false">
+      <img class="rest" src="img/folder_roz.png" alt="" draggable="false">
     </a>
   </main>
 
+  <!-- header / footer transparente: se vede doar textul, rămân fixe pe ecran la swipe -->
+  <header class="bar bar--top"><span>Ioana Catalina Ospiru</span></header>
+  <footer class="bar bar--bottom"><span>Workspace</span></footer>
+
   <!-- săgeți de swipe: vizibile doar pe telefon/tabletă (touch) -->
-  <div class="swipe-hint swipe-hint--left" id="hint-left" aria-hidden="true">
-    <svg viewBox="0 0 24 24"><path d="M15 4 7 12l8 8" /></svg>
-  </div>
-  <div class="swipe-hint swipe-hint--right" id="hint-right" aria-hidden="true">
-    <svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8" /></svg>
-  </div>
+  <img class="swipe-hint swipe-hint--left" id="hint-left" src="img/sageatastanga.png" alt="" draggable="false">
+  <img class="swipe-hint swipe-hint--right" id="hint-right" src="img/sageatadreapta.png" alt="" draggable="false">
+
   <script src="main.js"></script>
 </body>
 </html>
